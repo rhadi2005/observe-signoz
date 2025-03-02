@@ -72,8 +72,7 @@ services:
         node_arch=$$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
         echo "Fetching histogram-binary for $${node_os}/$${node_arch}"
         cd /tmp
-        # wget -O histogram-quantile.tar.gz "https://github.com/SigNoz/signoz/releases/download/histogram-quantile%2F$${version}/histogram-quantile_$${node_os}_$${node_arch}.tar.gz"
-        wget -O histogram-quantile.tar.gz http://gvllx353.dolgen.net:7080/histogram-quantile.tar.gz
+        wget -O histogram-quantile.tar.gz "https://github.com/SigNoz/signoz/releases/download/histogram-quantile%2F$${version}/histogram-quantile_$${node_os}_$${node_arch}.tar.gz"
         tar -xvzf histogram-quantile.tar.gz
         mv histogram-quantile /var/lib/clickhouse/user_scripts/histogramQuantile
     restart: on-failure
@@ -209,37 +208,15 @@ services:
       - --dsn=tcp://clickhouse:9000
       - --up=
     restart: on-failure
-
 networks:
   signoz-net:
     name: signoz-net
-
 volumes:
   alertmanager:
     name: signoz-alertmanager
-    driver: local # Define the driver and options under the volume name
-    driver_opts:
-      type: none
-      device: /u/WORK/dis/innov/platform/signoz/alertmanager
-      o: bind    
   clickhouse:
     name: signoz-clickhouse
-    driver: local # Define the driver and options under the volume name
-    driver_opts:
-      type: none
-      device: /u/WORK/dis/innov/platform/signoz/clickhouse
-      o: bind    
   sqlite:
     name: signoz-sqlite
-    driver: local # Define the driver and options under the volume name
-    driver_opts:
-      type: none
-      device: /u/WORK/dis/innov/platform/signoz/sqlite
-      o: bind    
   zookeeper-1:
     name: signoz-zookeeper-1
-    driver: local # Define the driver and options under the volume name
-    driver_opts:
-      type: none
-      device: /u/WORK/dis/innov/platform/signoz/zookeeper-1
-      o: bind    
